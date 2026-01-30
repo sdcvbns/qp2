@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>أسعار البارون</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>أسعار البارون</h1>
+    <div class="button-group">
+      <button onclick="switchToCustomer()">واجهة الزبون</button>
+      <button onclick="switchToAdmin()">واجهة الأدمن</button>
+    </div>
+    <div id="form-section" style="display:none;">
+      <select id="company">
+        <option value="">اختر الشركة</option>
+        <option value="Samsung">Samsung</option>
+        <option value="Xiaomi">Xiaomi</option>
+        <option value="iPhone">iPhone</option>
+        <option value="Huawei">Huawei</option>
+        <option value="Oppo">Oppo</option>
+        <option value="Vivo">Vivo</option>
+        <option value="Realme">Realme</option>
+        <option value="Nokia">Nokia</option>
+      </select>
+      <select id="part">
+        <option value="">نوع القطعة</option>
+        <option value="شاشة">شاشة</option>
+        <option value="بطارية">بطارية</option>
+        <option value="قطعة غيار">قطعة غيار</option>
+      </select>
+      <input type="text" id="device" placeholder="نوع الجهاز" />
+      <input type="number" id="price" placeholder="السعر" />
+      <button onclick="addData()">إضافة</button>
+    </div>
+    <table id="data-table">
+      <thead>
+        <tr>
+          <th>الشركة</th>
+          <th>النوع</th>
+          <th>الجهاز</th>
+          <th>السعر</th>
+          <th class="admin-only">إجراءات</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
