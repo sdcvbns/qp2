@@ -1,54 +1,386 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>أسعار البارون</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>دليل التوافق الذكي - سرمد للتوافقات</title>
+<link href="https://fonts.googleapis.com/css2?family=Changa:wght@400;600;700&family=IBM+Plex+Sans+Arabic:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --main-gradient: linear-gradient(135deg, #0062ff 0%, #00d2ff 100%);
+    --bg-color: #f0f4f8;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --text-main: #1a202c;
+    --accent-glow: rgba(0, 98, 255, 0.2);
+    --radius: 20px;
+  }
+
+  body {
+    font-family: 'IBM Plex Sans Arabic', 'Changa', sans-serif;
+    background: var(--bg-color);
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(0, 210, 255, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(0, 98, 255, 0.15) 0px, transparent 50%);
+    margin: 0;
+    min-height: 100vh;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+  }
+
+  header {
+    background: var(--main-gradient);
+    padding: 4rem 1rem;
+    text-align: center;
+    color: white;
+    border-radius: 0 0 50px 50px;
+    box-shadow: 0 10px 30px var(--accent-glow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  header h1 {
+    font-size: 2.8rem;
+    margin: 0;
+    font-weight: 700;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  header p { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; }
+
+  .admin-dot {
+    position: absolute;
+    top: 20px; left: 20px;
+    width: 15px; height: 15px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  main { flex: 1; padding: 2rem 1rem; }
+
+  .container {
+    max-width: 700px;
+    margin: -60px auto 20px;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    border: 1px solid rgba(255,255,255,0.5);
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #4a5568;
+    font-size: 0.95rem;
+  }
+
+  select, input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    background: white;
+    box-sizing: border-box;
+  }
+
+  select:focus, input:focus {
+    border-color: #0062ff;
+    box-shadow: 0 0 0 4px var(--accent-glow);
+    outline: none;
+  }
+
+  .item {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #edf2f7;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    border-color: #0062ff;
+  }
+
+  .item .name { font-weight: 700; color: #2d3748; }
+  
+  .item .compatibility {
+    background: #ebf4ff;
+    color: #0062ff;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid rgba(0,98,255,0.1);
+  }
+
+  .btn-primary {
+    background: var(--main-gradient);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    width: 100%;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 15px var(--accent-glow);
+    transition: 0.3s;
+  }
+
+  /* Admin List Styling */
+  .admin-table-container {
+    margin-top: 30px;
+    overflow-x: auto;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+  }
+
+  .admin-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    border: 1px solid #eee;
+  }
+
+  .admin-btns { display: flex; gap: 5px; }
+
+  .btn-edit { background: #34d399; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+  .btn-delete { background: #f87171; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: #718096;
+    font-size: 0.9rem;
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>أسعار البارون</h1>
-    <div class="button-group">
-      <button onclick="switchToCustomer()">واجهة الزبون</button>
-      <button onclick="switchToAdmin()">واجهة الأدمن</button>
+
+<header>
+  <div class="admin-dot" onclick="openAdmin()"></div>
+  <h1>سرمد الاغآ</h1>
+  <p>دليل سرمد للتوافقات الذكي</p>
+</header>
+
+<main>
+  <div class="container" id="customerPage">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+      <div>
+        <label>الشركة</label>
+        <select id="brandSelect" onchange="onBrandOrTypeChange()">
+          <option value="" disabled selected>اختر</option>
+          <option>ايفون</option>
+          <option>سامسونج</option>
+          <option>شاومي</option>
+          <option>هواوي- هونر</option>
+          <option>اوبو</option>
+          <option>فيفو</option>
+          <option>انفنكس- تكنو</option>
+          <option>ريلمي</option>
+          <option>آيتل</option>
+        </select>
+      </div>
+      <div>
+        <label>القسم</label>
+        <select id="typeSelect" onchange="onBrandOrTypeChange()" disabled>
+          <option value="" disabled selected>اختر</option>
+          <option>شاشة</option>
+          <option>بطارية</option>
+          <option>قطع غيار</option>
+        </select>
+      </div>
     </div>
-    <div id="form-section" style="display:none;">
-      <select id="company">
-        <option value="">اختر الشركة</option>
-        <option value="Samsung">Samsung</option>
-        <option value="Xiaomi">Xiaomi</option>
-        <option value="iPhone">iPhone</option>
-        <option value="Huawei">Huawei</option>
-        <option value="Oppo">Oppo</option>
-        <option value="Vivo">Vivo</option>
-        <option value="Realme">Realme</option>
-        <option value="Nokia">Nokia</option>
-      </select>
-      <select id="part">
-        <option value="">نوع القطعة</option>
-        <option value="شاشة">شاشة</option>
-        <option value="بطارية">بطارية</option>
-        <option value="قطعة غيار">قطعة غيار</option>
-      </select>
-      <input type="text" id="device" placeholder="نوع الجهاز" />
-      <input type="number" id="price" placeholder="السعر" />
-      <button onclick="addData()">إضافة</button>
-    </div>
-    <table id="data-table">
-      <thead>
-        <tr>
-          <th>الشركة</th>
-          <th>النوع</th>
-          <th>الجهاز</th>
-          <th>السعر</th>
-          <th class="admin-only">إجراءات</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+
+    <input type="text" id="searchInput" placeholder="🔍 ابحث عن موديل الجهاز..." oninput="renderList()" style="display:none;">
+    <div id="productsList"></div>
   </div>
 
-  <script src="script.js"></script>
+  <div id="adminPage" class="container" style="display:none;">
+    <h3 style="text-align:center; color:#0062ff;">إدارة بيانات التوافق</h3>
+    <label>الشركة:</label>
+    <select id="adminBrand">
+      <option>ايفون</option><option>سامسونج</option><option>شاومي</option>
+      <option>هواوي</OPTION><OPTION>هونر</option><option>اوبو</option><option>فيفو</option>
+      <option>انفنكس</OPTION><OPTION>تكنو</option><option>ريلمي</option><option>آيتل</option>
+    </select>
+    <label>اسم الجهاز (الموديل):</label>
+    <input type="text" id="adminName" placeholder="مثلاً: iPhone X" />
+    <label>الموديلات المتوافقة:</label>
+    <input type="text" id="adminPrice" placeholder="مثلاً: XS / 11 Pro" />
+    <label>القسم:</label>
+    <select id="adminType">
+      <option>شاشة</option><option>بطارية</option><option>فلاتات شحن</option><OPTION>ايسيات</OPTION><OPTION>لواصق</OPTION><OPTION>شرائط</option>
+    </select>
+    <button class="btn-primary" onclick="addItem()">حفظ في الجدول</button>
+    
+    <div class="admin-table-container">
+        <label>القائمة الحالية (للحذف والتعديل):</label>
+        <input type="text" id="adminSearch" placeholder="ابحث في الجدول..." oninput="renderAdminList()">
+        <div id="adminDataList"></div>
+    </div>
+
+    <button onclick="closeAdmin()" style="background:none; border:none; width:100%; color:#718096; margin-top:15px; cursor:pointer;">إغلاق</button>
+  </div>
+</main>
+
+<footer>
+  جميع الحقوق محفوظة &copy; سرمد الاغآ 2026
+</footer>
+
+<script>
+  const apiUrl = "https://script.google.com/macros/s/AKfycbx2DuVr59ztRVYxQnU3OjfQTGLlmwbxnFk1lrkk8-G3vVYNqewVWXBd3oXxhEUMjyDiAg/exec";
+  let allData = [];
+
+  async function fetchData() {
+    try {
+      const res = await fetch(apiUrl);
+      allData = await res.json();
+      document.getElementById('typeSelect').disabled = false;
+      if(document.getElementById('adminPage').style.display === 'block') renderAdminList();
+    } catch (e) { console.error("Error fetching data", e); }
+  }
+
+  function onBrandOrTypeChange() {
+    if (document.getElementById('brandSelect').value && document.getElementById('typeSelect').value) {
+      document.getElementById('searchInput').style.display = 'block';
+      renderList();
+    }
+  }
+
+  function renderList() {
+    const brand = document.getElementById('brandSelect').value.trim().toLowerCase();
+    const type = document.getElementById('typeSelect').value.trim().toLowerCase();
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const list = document.getElementById('productsList');
+    list.innerHTML = '';
+
+    const filtered = allData.slice(1).filter(row => {
+      if (row.length < 4) return false;
+      return row[3].toString().toLowerCase() === brand && 
+             row[2].toString().toLowerCase() === type && 
+             row[0].toString().toLowerCase().includes(query);
+    });
+
+    if (filtered.length === 0) {
+      list.innerHTML = '<p style="text-align:center; color:#a0aec0; margin-top:20px;">لا توجد نتائج..</p>';
+      return;
+    }
+
+    filtered.forEach(row => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML = `<span class="name">${row[0]}</span><span class="compatibility">${row[1]}</span>`;
+      list.appendChild(div);
+    });
+  }
+
+  function openAdmin() {
+    if (prompt('رمز الدخول:') === '0') {
+      document.getElementById('customerPage').style.display = 'none';
+      document.getElementById('adminPage').style.display = 'block';
+      fetchData();
+    }
+  }
+
+  function closeAdmin() {
+    document.getElementById('adminPage').style.display = 'none';
+    document.getElementById('customerPage').style.display = 'block';
+  }
+
+  function renderAdminList() {
+    const query = document.getElementById('adminSearch').value.toLowerCase();
+    const list = document.getElementById('adminDataList');
+    list.innerHTML = '';
+
+    allData.slice(1).forEach((row, index) => {
+      if (row[0].toString().toLowerCase().includes(query) || row[3].toString().toLowerCase().includes(query)) {
+        const div = document.createElement('div');
+        div.className = 'admin-row';
+        div.innerHTML = `
+          <span>${row[0]} (${row[3]})</span>
+          <div class="admin-btns">
+            <button class="btn-edit" onclick="editItem(${index + 1})">تعديل</button>
+            <button class="btn-delete" onclick="deleteItem(${index + 1})">حذف</button>
+          </div>
+        `;
+        list.appendChild(div);
+      }
+    });
+  }
+
+  async function addItem() {
+    const brand = document.getElementById('adminBrand').value;
+    const name = document.getElementById('adminName').value;
+    const compat = document.getElementById('adminPrice').value;
+    const type = document.getElementById('adminType').value;
+
+    if (!brand || !name || !compat || !type) { alert('يرجى ملء كافة الحقول'); return; }
+
+    try {
+      await fetch(apiUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({ name, compat, type, brand, action: "add" }),
+      });
+      alert('تم الإرسال لجدول البيانات');
+      document.getElementById('adminName').value = '';
+      document.getElementById('adminPrice').value = '';
+      fetchData();
+    } catch (e) { alert('خطأ في الاتصال'); }
+  }
+
+  async function editItem(index) {
+    const row = allData[index];
+    const newCompat = prompt(`تعديل توافقات ${row[0]}:`, row[1]);
+    if (newCompat === null) return;
+
+    try {
+      await fetch(apiUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({ name: row[0], compat: newCompat, type: row[2], brand: row[3], action: "edit" }),
+      });
+      alert('تم التعديل');
+      fetchData();
+    } catch (e) { alert('خطأ في الاتصال'); }
+  }
+
+  async function deleteItem(index) {
+    const row = allData[index];
+    if (!confirm(`هل أنت متأكد من حذف ${row[0]}؟`)) return;
+
+    try {
+      await fetch(apiUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({ name: row[0], compat: row[1], type: row[2], brand: row[3], action: "delete" }),
+      });
+      alert('تم الحذف');
+      fetchData();
+    } catch (e) { alert('خطأ في الاتصال'); }
+  }
+
+  window.onload = fetchData;
+</script>
 </body>
 </html>
