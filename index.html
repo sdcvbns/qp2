@@ -2,18 +2,105 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>لوحة تحكم الآغا برو</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: #f0f4f8; padding: 20px; }
-  .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-  h2 { color: #0062ff; text-align: center; }
-  label { display: block; margin: 15px 0 5px; font-weight: bold; }
-  input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
-  .btn-save { background: #0062ff; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; margin-top: 20px; cursor: pointer; font-weight: bold; }
-  .admin-row { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 10px; margin-top: 10px; border-radius: 8px; border: 1px solid #eee; }
-  .btn-edit { background: #34d399; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 5px; }
-  .btn-delete { background: #f87171; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+  :root {
+    --primary-color: #0062ff;
+    --bg-color: #f0f4f8;
+    --text-color: #333;
+  }
+
+  body { 
+    font-family: 'IBM Plex Sans Arabic', sans-serif; 
+    background: var(--bg-color); 
+    padding: 10px; /* تقليل الحواف للهواتف */
+    margin: 0;
+    color: var(--text-color);
+  }
+
+  .container { 
+    max-width: 800px; 
+    margin: 10px auto; 
+    background: white; 
+    padding: 20px; 
+    border-radius: 15px; 
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05); 
+  }
+
+  h2 { color: var(--primary-color); text-align: center; font-size: 1.5rem; }
+
+  label { display: block; margin: 15px 0 5px; font-weight: bold; font-size: 0.9rem; }
+
+  input, select { 
+    width: 100%; 
+    padding: 12px; 
+    border: 1px solid #ddd; 
+    border-radius: 10px; 
+    box-sizing: border-box; 
+    font-size: 16px; /* منع الزوم التلقائي في الآيفون عند الكتابة */
+  }
+
+  .btn-save { 
+    background: var(--primary-color); 
+    color: white; 
+    border: none; 
+    padding: 15px; 
+    width: 100%; 
+    border-radius: 10px; 
+    margin-top: 20px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    font-size: 1rem;
+    transition: background 0.3s;
+  }
+
+  .btn-save:active { background: #004dc7; }
+
+  .admin-row { 
+    display: flex; 
+    flex-direction: column; /* تحويل الصف إلى عمود في الشاشات الصغيرة */
+    gap: 10px;
+    background: #f9f9f9; 
+    padding: 15px; 
+    margin-top: 10px; 
+    border-radius: 10px; 
+    border: 1px solid #eee; 
+  }
+
+  /* تنسيق الأزرار داخل القائمة */
+  .admin-actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn-edit, .btn-delete { 
+    flex: 1; /* جعل الأزرار تأخذ مساحة متساوية */
+    border: none; 
+    padding: 10px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .btn-edit { background: #34d399; color: white; }
+  .btn-delete { background: #f87171; color: white; }
+
+  /* استعلامات الوسائط (Media Queries) للشاشات الأكبر مثل الحاسوب */
+  @media (min-width: 600px) {
+    body { padding: 40px 20px; }
+    .container { padding: 30px; }
+    .admin-row { 
+      flex-direction: row; 
+      justify-content: space-between; 
+      align-items: center; 
+    }
+    .admin-actions { width: auto; }
+    .btn-edit, .btn-delete { flex: none; width: 80px; }
+    h2 { font-size: 2rem; }
+  }
 </style>
 </head>
 <body>
@@ -35,7 +122,7 @@
   
   <button class="btn-save" onclick="addItem()">حفظ البيانات</button>
 
-  <hr style="margin-top: 40px;">
+  <hr style="margin-top: 40px; border: 0; border-top: 1px solid #eee;">
   <h3>البحث والتعديل</h3>
   <input type="text" id="adminSearch" oninput="renderAdminList()" placeholder="ابحث لتعديل أو حذف...">
   <div id="adminDataList"></div>
@@ -46,7 +133,7 @@
   const apiUrl = "https://script.google.com/macros/s/AKfycbzG8ppzM1qIVFSjUp7FfRMYL9vQbH1cIgHUceaIDQgK1yh7Pir_rbFHYREJ8Qgl3ONDvA/exec";
   let allData = [];
   const DB_BRANDS = ["ايفون", "سامسونج", "شاومي", "هواوي", "هونر", "اوبو", "فيفو", "انفنكس", "تكنو", "ريلمي", "آيتل"];
-  const DB_TYPES = ["شاشات", "بطاريات", "فلاتات شحن", "ايسيات", "لواصق", "شرائط"];
+  const DB_TYPES = ["شاشات", "بطاريات","گفرات","فلاتات شحن", "ايسيات", "لواصق", "شرائط"];
 
   window.onload = function() {
     fillSelect('adminBrand', DB_BRANDS);
@@ -81,7 +168,6 @@
       return; 
     }
     
-    // إرسال البيانات للسكربت
     await fetch(apiUrl, { 
       method: 'POST', 
       mode: 'no-cors', 
@@ -89,12 +175,8 @@
     });
     
     alert('تمت الإضافة بنجاح');
-    
-    // إفراغ الخانات تلقائياً للإضافة الجديدة
     document.getElementById('adminName').value = '';
     document.getElementById('adminPrice').value = '';
-    
-    // تحديث القائمة بالأسفل
     fetchData();
   }
 
@@ -109,8 +191,8 @@
           const div = document.createElement('div');
           div.className = 'admin-row';
           div.innerHTML = `
-            <span><strong>${row[0]}</strong> (${row[3]})</span>
-            <div>
+            <span><strong>${row[0]}</strong> <br><small style="color:#666">${row[3]} - ${row[2]}</small></span>
+            <div class="admin-actions">
               <button class="btn-edit" onclick="editItem(${index + 1})">تعديل</button>
               <button class="btn-delete" onclick="deleteItem(${index + 1})">حذف</button>
             </div>
